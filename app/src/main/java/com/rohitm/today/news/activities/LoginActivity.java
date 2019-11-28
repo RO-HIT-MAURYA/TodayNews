@@ -6,6 +6,7 @@ import android.content.IntentSender;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,9 +19,9 @@ import com.rohitm.today.news.R;
 
 import java.util.ArrayList;
 
-public class LoginActivity extends AppCompatActivity
-{
-    int CONSTANT_CODE = 31;
+public class LoginActivity extends AppCompatActivity {
+    int MOBILE_CODE = 31;
+    int EMAIL_CODE = 47;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,55 +39,54 @@ public class LoginActivity extends AppCompatActivity
 
     }
 
-    private void requestHint()
-    {
-        GoogleApiClient googleApiClient =  new GoogleApiClient.Builder(this)
-                .addApi(Auth.CREDENTIALS_API)
-                .build();
-
-        HintRequest hintRequest = new HintRequest.Builder()
-                .setPhoneNumberIdentifierSupported(false)
-                .setEmailAddressIdentifierSupported(true)
-                .build();
-
-        PendingIntent intent = Auth.CredentialsApi.getHintPickerIntent(googleApiClient, hintRequest);
-        try {
-            startIntentSenderForResult(intent.getIntentSender(), CONSTANT_CODE, null, 0, 0, 0);
-        } catch (IntentSender.SendIntentException e) {
-            e.printStackTrace();
-        }
-    }
-
-   /* private void askNumber() {
-        PendingIntent intent = Auth.CredentialsApi.getHintPickerIntent(
-                googleApiClient, new HintRequest.Builder()
-                        .setPhoneNumberIdentifierSupported(true)
-                        .setEmailAddressIdentifierSupported(false)
-                        .build());
-        try {
-            startIntentSenderForResult(intent.getIntentSender(),
-                    REQUEST_CODE_RESOLVE_PHONE, null, 0, 0, 0);
-        } catch (IntentSender.SendIntentException e) {
-            e.printStackTrace();
-        }
-    }*/
-
     // Obtain the phone number from the result
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CONSTANT_CODE) {
-            if (resultCode == RESULT_OK) {
-                Credential credential = data.getParcelableExtra(Credential.EXTRA_KEY);
-                credential.getId();  //<-- will need to process phone number string
+        if (resultCode == RESULT_OK) {
+            Credential credential = data.getParcelableExtra(Credential.EXTRA_KEY);
+            credential.getId();  //<-- will need to process phone number string
 
-                String string = credential.getId();
-                Log.e("phoneNumberIs",string+"");
-            }
+            Log.e("givenNameIs",""+credential.getGivenName());
+            Log.e("nameIs",""+credential.getName());
+            Log.e("profileUriIs",""+credential.getProfilePictureUri());
+            Log.e("idIs",""+credential.getId());
+
+            if (requestCode == MOBILE_CODE)
+                ((EditText) findViewById(R.id.mobileEditText)).setText("" + credential.getId());
+            else
+                ((EditText) findViewById(R.id.emailEditText)).setText("" + credential.getId());
         }
     }
 
     public void onClick(View view) {
-        requestHint();
+
+        GoogleApiClient googleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Auth.CREDENTIALS_API)
+                .build();
+        if (view.getId() == R.id.mobileEditText) {
+
+            HintRequest hintRequest = new HintRequest.Builder()
+                    .setPhoneNumberIdentifierSupported(true)
+                    .build();
+
+            PendingIntent intent = Auth.CredentialsApi.getHintPickerIntent(googleApiClient, hintRequest);
+            try {
+                startIntentSenderForResult(intent.getIntentSender(), MOBILE_CODE, null, 0, 0, 0);
+            } catch (IntentSender.SendIntentException e) {
+                e.printStackTrace();
+            }
+        } else {
+            HintRequest hintRequest = new HintRequest.Builder()
+                    .setEmailAddressIdentifierSupported(true)
+                    .build();
+
+            PendingIntent intent = Auth.CredentialsApi.getHintPickerIntent(googleApiClient, hintRequest);
+            try {
+                startIntentSenderForResult(intent.getIntentSender(), EMAIL_CODE, null, 0, 0, 0);
+            } catch (IntentSender.SendIntentException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
