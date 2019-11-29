@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">Today News</string>
+
+    <string-array name="countryNameWithCode">
+
+        <item>+54     Argentina</item>
+        <item>+61     Australia</item>
+        <item>+43     Austria</item>
+        <item>+32     Belgium</item>
+        <item>+55     Brazil</item>
+        <item>+359    Bulgaria</item>
+        <item>+1      Canada</item>
+        <item>+86     China</item>
+        <item>+57     Colombia</item>
+        <item>+53     Cuba</item>
+        <item>+420    Czech Republic</item>
+        <item>+20     Egypt</item>
+        <item>+33     France</item>
+        <item>+49     Germany</item>
+        <item>+30     Greece</item>
+        <item>+852    Hong Kong</item>
+        <item>+36     Hungary</item>
+
+    </string-array>
+
 </resources>

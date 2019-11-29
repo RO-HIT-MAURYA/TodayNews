@@ -28,7 +28,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        prepareNameListWithImage();
     }
 
     private void prepareNameListWithImage() {
@@ -36,6 +35,20 @@ public class LoginActivity extends AppCompatActivity {
         arrayList.add("+54     Argentina");
         arrayList.add("+61     Australia");
         arrayList.add("+43     Austria");
+        arrayList.add("+32     Belgium");
+        arrayList.add("+55     Brazil");
+        arrayList.add("+359    Bulgaria");
+        arrayList.add("+1      Canada");
+        arrayList.add("+86     China");
+        arrayList.add("+57     Colombia");
+        arrayList.add("+53     Cuba");
+        arrayList.add("+420    Czech Republic");
+        arrayList.add("+20     Egypt");
+        arrayList.add("+33     France");
+        arrayList.add("+49     Germany");
+        arrayList.add("+30     Greece");
+        arrayList.add("+852    Hong Kong");
+        arrayList.add("+36     Hungary");
 
     }
 
@@ -47,10 +60,10 @@ public class LoginActivity extends AppCompatActivity {
             Credential credential = data.getParcelableExtra(Credential.EXTRA_KEY);
             credential.getId();  //<-- will need to process phone number string
 
-            Log.e("givenNameIs",""+credential.getGivenName());
-            Log.e("nameIs",""+credential.getName());
-            Log.e("profileUriIs",""+credential.getProfilePictureUri());
-            Log.e("idIs",""+credential.getId());
+            Log.e("givenNameIs", "" + credential.getGivenName());
+            Log.e("nameIs", "" + credential.getName());
+            Log.e("profileUriIs", "" + credential.getProfilePictureUri());
+            Log.e("idIs", "" + credential.getId());
 
             if (requestCode == MOBILE_CODE)
                 ((EditText) findViewById(R.id.mobileEditText)).setText("" + credential.getId());
